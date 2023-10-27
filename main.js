@@ -22,12 +22,12 @@ const clock = new THREE.Clock();
 
 // skybox
 let materialAray = []
-let texture_ft = new THREE.TextureLoader().load('public/skybox/penguins/arid_ft.jpg');
-let texture_bk = new THREE.TextureLoader().load('public/skybox/penguins/arid_bk.jpg');
-let texture_up = new THREE.TextureLoader().load('public/skybox/penguins/arid_up.jpg');
-let texture_dn = new THREE.TextureLoader().load('public/skybox/penguins/arid_dn.jpg');
-let texture_rt = new THREE.TextureLoader().load('public/skybox/penguins/arid_rt.jpg');
-let texture_lf = new THREE.TextureLoader().load('public/skybox/penguins/arid_lf.jpg');
+let texture_ft = new THREE.TextureLoader().load('skybox/penguins/arid_ft.jpg');
+let texture_bk = new THREE.TextureLoader().load('skybox/penguins/arid_bk.jpg');
+let texture_up = new THREE.TextureLoader().load('skybox/penguins/arid_up.jpg');
+let texture_dn = new THREE.TextureLoader().load('skybox/penguins/arid_dn.jpg');
+let texture_rt = new THREE.TextureLoader().load('skybox/penguins/arid_rt.jpg');
+let texture_lf = new THREE.TextureLoader().load('skybox/penguins/arid_lf.jpg');
 
 materialAray.push(new THREE.MeshBasicMaterial({ map: texture_ft }));
 materialAray.push(new THREE.MeshBasicMaterial({ map: texture_bk }));
@@ -70,7 +70,7 @@ THREE.DefaultLoadingManager.onError = function (url) {
 
 // Load a texture for the ground
 let textureLoader = new THREE.TextureLoader();
-let terrainTexture = textureLoader.load('public/ground/mossy_cobblestone_diff_4k.jpg');
+let terrainTexture = textureLoader.load('ground/mossy_cobblestone_diff_4k.jpg');
 
 // Adjust the texture scale
 terrainTexture.repeat.set(6, 6); // Increase the values to make the texture smaller or decrease to make it larger
@@ -103,7 +103,7 @@ controls.enableDamping = true;
 
 const loader = new GLTFLoader();
 // Load a glb resource
-loader.load('public/scull_cup.glb', function (gltf) {
+loader.load('scull_cup.glb', function (gltf) {
     const model = gltf.scene;
     model.position.set(0, 0.3, -3);
     scene.add(model);
@@ -112,7 +112,7 @@ loader.load('public/scull_cup.glb', function (gltf) {
 });
 
 // Load a glb resource
-loader.load('public/lambo.glb', function (gltf) {
+loader.load('lambo.glb', function (gltf) {
     const model = gltf.scene;
     model.position.set(3, 0.12, -2);
     scene.add(model);
@@ -122,7 +122,7 @@ loader.load('public/lambo.glb', function (gltf) {
 
 
 // Load a glb resource
-loader.load('public/coffee_bag.glb', function (gltf) {
+loader.load('coffee_bag.glb', function (gltf) {
     const model = gltf.scene;
     model.position.set(2, 0.57, 1.3);
     scene.add(model);
@@ -132,7 +132,7 @@ loader.load('public/coffee_bag.glb', function (gltf) {
 
 
 // Load a glb resource
-loader.load('public/trash.glb', function (gltf) {
+loader.load('trash.glb', function (gltf) {
     const model = gltf.scene;
     model.position.set(-3, 0, -2);
     scene.add(model);
@@ -142,7 +142,7 @@ loader.load('public/trash.glb', function (gltf) {
 
 
 // // Load a glb resource
-// loader.load('public/dirty_squatting_toilet.glb', function (gltf) {
+// loader.load('dirty_squatting_toilet.glb', function (gltf) {
 //     const model = gltf.scene;
 //     model.position.set(0, 0, 0);
 //     // scale

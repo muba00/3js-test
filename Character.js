@@ -11,16 +11,16 @@ export default class Character {
     }
 
     static states = {
-        "idle": "public/sophie/Idle.fbx",
-        "walking": "public/sophie/Walking.fbx",
-        "running": "public/sophie/Fast Running.fbx",
-        "Step Hip Hop Dance": "public/sophie/Step Hip Hop Dance.fbx",
-        "Sitting idle": "public/sophie/Sitting Idle.fbx",
+        "idle": "sophie/Idle.fbx",
+        "walking": "sophie/Walking.fbx",
+        "running": "sophie/Fast Running.fbx",
+        "Step Hip Hop Dance": "sophie/Step Hip Hop Dance.fbx",
+        "Sitting idle": "sophie/Sitting Idle.fbx",
     }
 
     loadModel(scene, coords = { x: 0, y: 0, z: 0 }) {
         let loader = new FBXLoader();
-        loader.load('public/sophie.fbx', function (model) {
+        loader.load('sophie.fbx', function (model) {
             model.scale.set(0.01, 0.01, 0.01);
             model.position.set(coords.x, coords.y, coords.z);
 
