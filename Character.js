@@ -35,7 +35,7 @@ export default class Character {
         });
     }
 
-    update(delta) {
+    animate(delta) {
         if (Character.mixer) {
             Character.mixer.update(delta);
         }

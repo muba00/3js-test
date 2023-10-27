@@ -183,7 +183,7 @@ function animate() {
     stats.update();
 
     const delta = clock.getDelta();
-    sophia.update(delta);
+    sophia.animate(delta);
 
     renderer.render(scene, camera);
 }
