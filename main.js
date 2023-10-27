@@ -3,6 +3,8 @@ import Stats from 'three/examples/jsm/libs/stats.module.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import Character from './Character.js';
+import "./LoadingScreen.js";
+import Skybox from './Skybox.js';
 
 
 
@@ -21,53 +23,12 @@ const clock = new THREE.Clock();
 
 
 // skybox
-let materialAray = []
-let texture_ft = new THREE.TextureLoader().load('skybox/penguins/arid_ft.jpg');
-let texture_bk = new THREE.TextureLoader().load('skybox/penguins/arid_bk.jpg');
-let texture_up = new THREE.TextureLoader().load('skybox/penguins/arid_up.jpg');
-let texture_dn = new THREE.TextureLoader().load('skybox/penguins/arid_dn.jpg');
-let texture_rt = new THREE.TextureLoader().load('skybox/penguins/arid_rt.jpg');
-let texture_lf = new THREE.TextureLoader().load('skybox/penguins/arid_lf.jpg');
-
-materialAray.push(new THREE.MeshBasicMaterial({ map: texture_ft }));
-materialAray.push(new THREE.MeshBasicMaterial({ map: texture_bk }));
-materialAray.push(new THREE.MeshBasicMaterial({ map: texture_up }));
-materialAray.push(new THREE.MeshBasicMaterial({ map: texture_dn }));
-materialAray.push(new THREE.MeshBasicMaterial({ map: texture_rt }));
-materialAray.push(new THREE.MeshBasicMaterial({ map: texture_lf }));
-
-for (let i = 0; i < 6; i++)
-    materialAray[i].side = THREE.BackSide;
-
-let skyboxGeo = new THREE.BoxGeometry(100, 100, 100);
-let skybox = new THREE.Mesh(skyboxGeo, materialAray);
+const skybox = new Skybox();
 scene.add(skybox);
 
 
 
 
-
-const loadingScreen = document.getElementById('loading-screen');
-const loadingMessage = document.getElementById('loading-message');
-const progressBar = document.getElementById('loading-bar');
-
-THREE.DefaultLoadingManager.onStart = function (url, itemsLoaded, itemsTotal) {
-    // console.log('Started loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.');
-};
-THREE.DefaultLoadingManager.onLoad = function () {
-    console.log('Loading Complete!');
-    loadingScreen.remove();
-};
-THREE.DefaultLoadingManager.onProgress = function (url, itemsLoaded, itemsTotal) {
-    loadingMessage.innerHTML = 'Loaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.'
-    const progress = itemsLoaded / itemsTotal;
-    progressBar.style.width = `${progress * 100}%`;
-    // console.log('Loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.');
-};
-THREE.DefaultLoadingManager.onError = function (url) {
-    // console.log('There was an error loading ' + url);
-    loadingMessage.innerHTML = 'There was an error loading ' + url;
-};
 
 
 
