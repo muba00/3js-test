@@ -1,7 +1,10 @@
 import * as THREE from 'three';
+import Stats from 'three/examples/jsm/libs/stats.module.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import Character from './Character.js';
+
+
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -9,6 +12,12 @@ const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerH
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
+
+const stats = new Stats();
+document.body.appendChild(stats.dom);
+
+let mixer = null;
+const clock = new THREE.Clock();
 
 
 // skybox
@@ -71,7 +80,7 @@ controls.enableDamping = true;
 
 
 const loader = new GLTFLoader();
-// Load a glTF resource
+// Load a glb resource
 loader.load('public/scull_cup.glb', function (gltf) {
     const model = gltf.scene;
     model.position.set(0, 0.3, -3);
@@ -80,7 +89,7 @@ loader.load('public/scull_cup.glb', function (gltf) {
     console.error(error);
 });
 
-// Load a glTF resource
+// Load a glb resource
 loader.load('public/lambo.glb', function (gltf) {
     const model = gltf.scene;
     model.position.set(3, 0.12, -2);
@@ -90,7 +99,7 @@ loader.load('public/lambo.glb', function (gltf) {
 });
 
 
-// Load a glTF resource
+// Load a glb resource
 loader.load('public/coffee_bag.glb', function (gltf) {
     const model = gltf.scene;
     model.position.set(2, 0.57, 1.3);
@@ -100,7 +109,7 @@ loader.load('public/coffee_bag.glb', function (gltf) {
 });
 
 
-// Load a glTF resource
+// Load a glb resource
 loader.load('public/trash.glb', function (gltf) {
     const model = gltf.scene;
     model.position.set(-3, 0, -2);
@@ -110,28 +119,52 @@ loader.load('public/trash.glb', function (gltf) {
 });
 
 
-// Load a FBX resource
-const fbxLoader = new FBXLoader();
-fbxLoader.load("public/sophie.fbx", function (object) {
-    object.scale.set(0.01, 0.01, 0.01);
-    object.position.set(0, 0, 0);
-    scene.add(object);
-});
+// // Load a glb resource
+// loader.load('public/dirty_squatting_toilet.glb', function (gltf) {
+//     const model = gltf.scene;
+//     model.position.set(0, 0, 0);
+//     // scale
+//     model.scale.set(0.04, 0.04, 0.04);
+//     // rotate 90 degrees
+//     model.rotation.y = Math.PI / 2;
+//     scene.add(model);
+// }, undefined, function (error) {
+//     console.error(error);
+// });
+
+
+const sophia = new Character("Sophia", scene, { x: 0, y: 0, z: 0 }, mixer);
 
 
 // soft white light
-const light = new THREE.AmbientLight(0xffffff, 1);
+const light = new THREE.AmbientLight(0x404040);
 scene.add(light);
 
-const sunlight = new THREE.DirectionalLight(0xffffff, 1);
-sunlight.position.set(40, 100, 100);
-scene.add(sunlight);
+const dirlight = new THREE.DirectionalLight(0xffffff, 1.5);
+dirlight.position.set(40, 100, 100);
+scene.add(dirlight);
 
-camera.position.z = 0.6;
+const hemisphereLight = new THREE.HemisphereLight(0xB1E1FF, 0xB97A20, 1);
+scene.add(hemisphereLight);
+
+camera.position.set(-1, 2, 4);
 
 function animate() {
     requestAnimationFrame(animate);
     controls.update();
+
+    stats.update();
+
+    const delta = clock.getDelta();
+    sophia.update(delta);
+
     renderer.render(scene, camera);
 }
 animate();
+
+
+window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+}, false);

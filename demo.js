@@ -1,9 +1,7 @@
-import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.118/build/three.module.js';
-
-import { FBXLoader } from 'https://cdn.jsdelivr.net/npm/three@0.118.1/examples/jsm/loaders/FBXLoader.js';
-import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.118.1/examples/jsm/loaders/GLTFLoader.js';
-import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.118/examples/jsm/controls/OrbitControls.js';
-
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 class BasicCharacterControllerProxy {
     constructor(animations) {
@@ -64,11 +62,10 @@ class BasicCharacterController {
             };
 
             const loader = new FBXLoader(this._manager);
-            loader.setPath('./resources/zombie/');
-            loader.load('walk.fbx', (a) => { _OnLoad('walk', a); });
-            loader.load('run.fbx', (a) => { _OnLoad('run', a); });
-            loader.load('idle.fbx', (a) => { _OnLoad('idle', a); });
-            loader.load('dance.fbx', (a) => { _OnLoad('dance', a); });
+            loader.load('public/sophie/Walking.fbx', (a) => { _OnLoad('walk', a); });
+            loader.load('public/sophie/Fast Run.fbx', (a) => { _OnLoad('run', a); });
+            loader.load('public/sophie/Idle.fbx', (a) => { _OnLoad('idle', a); });
+            loader.load('public/sophie/Step Hip Hop Dance.fbx', (a) => { _OnLoad('dance', a); });
         });
     }
 
@@ -515,17 +512,28 @@ class CharacterControllerDemo {
         controls.target.set(0, 10, 0);
         controls.update();
 
-        const loader = new THREE.CubeTextureLoader();
-        const texture = loader.load([
-            './resources/posx.jpg',
-            './resources/negx.jpg',
-            './resources/posy.jpg',
-            './resources/negy.jpg',
-            './resources/posz.jpg',
-            './resources/negz.jpg',
-        ]);
-        texture.encoding = THREE.sRGBEncoding;
-        this._scene.background = texture;
+        // skybox
+        let materialAray = []
+        let texture_ft = new THREE.TextureLoader().load('public/skybox/penguins/arid_ft.jpg');
+        let texture_bk = new THREE.TextureLoader().load('public/skybox/penguins/arid_bk.jpg');
+        let texture_up = new THREE.TextureLoader().load('public/skybox/penguins/arid_up.jpg');
+        let texture_dn = new THREE.TextureLoader().load('public/skybox/penguins/arid_dn.jpg');
+        let texture_rt = new THREE.TextureLoader().load('public/skybox/penguins/arid_rt.jpg');
+        let texture_lf = new THREE.TextureLoader().load('public/skybox/penguins/arid_lf.jpg');
+
+        materialAray.push(new THREE.MeshBasicMaterial({ map: texture_ft }));
+        materialAray.push(new THREE.MeshBasicMaterial({ map: texture_bk }));
+        materialAray.push(new THREE.MeshBasicMaterial({ map: texture_up }));
+        materialAray.push(new THREE.MeshBasicMaterial({ map: texture_dn }));
+        materialAray.push(new THREE.MeshBasicMaterial({ map: texture_rt }));
+        materialAray.push(new THREE.MeshBasicMaterial({ map: texture_lf }));
+
+        for (let i = 0; i < 6; i++)
+            materialAray[i].side = THREE.BackSide;
+
+        let skyboxGeo = new THREE.BoxGeometry(100, 100, 100);
+        let skybox = new THREE.Mesh(skyboxGeo, materialAray);
+        this._scene.add(skybox);
 
         const plane = new THREE.Mesh(
             new THREE.PlaneGeometry(100, 100, 10, 10),
