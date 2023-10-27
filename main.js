@@ -5,6 +5,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import Character from './Character.js';
 import "./LoadingScreen.js";
 import Skybox from './Skybox.js';
+import Ground from './Ground.js';
 
 
 
@@ -27,35 +28,8 @@ const skybox = new Skybox();
 scene.add(skybox);
 
 
-
-
-
-
-
-
-
-// Load a texture for the ground
-let textureLoader = new THREE.TextureLoader();
-let terrainTexture = textureLoader.load('ground/mossy_cobblestone_diff_4k.jpg');
-
-// Adjust the texture scale
-terrainTexture.repeat.set(6, 6); // Increase the values to make the texture smaller or decrease to make it larger
-terrainTexture.wrapS = THREE.RepeatWrapping;
-terrainTexture.wrapT = THREE.RepeatWrapping;
-
-// Create a ground material
-let groundMaterial = new THREE.MeshStandardMaterial({
-    color: 0xffffff,  // Color of the material
-    roughness: 0.7,   // Adjust roughness as needed
-    metalness: 0.0,   // Adjust metalness as needed
-    map: terrainTexture,  // Apply the terrain texture
-});
-
-// Create a ground plane
-let groundGeometry = new THREE.PlaneGeometry(10, 10, 10, 10);
-let ground = new THREE.Mesh(groundGeometry, groundMaterial);
-ground.rotation.x = -Math.PI / 2;
-ground.position.y = 0;
+// ground
+const ground = new Ground();
 scene.add(ground);
 
 
@@ -128,10 +102,12 @@ const sophia = new Character("Sophia", scene, { x: 0, y: 0, z: 0 }, mixer);
 const light = new THREE.AmbientLight(0x404040);
 scene.add(light);
 
-const dirlight = new THREE.DirectionalLight(0xffffff, 1.5);
+// directional light
+const dirlight = new THREE.DirectionalLight(0xffffff, 3);
 dirlight.position.set(40, 100, 100);
 scene.add(dirlight);
 
+// hemisphere light
 const hemisphereLight = new THREE.HemisphereLight(0xB1E1FF, 0xB97A20, 1);
 scene.add(hemisphereLight);
 
