@@ -103,12 +103,12 @@ const light = new THREE.AmbientLight(0x404040);
 scene.add(light);
 
 // directional light
-const dirlight = new THREE.DirectionalLight(0xffffff, 3);
+const dirlight = new THREE.DirectionalLight(0xffffff, 5);
 dirlight.position.set(40, 100, 100);
 scene.add(dirlight);
 
 // hemisphere light
-const hemisphereLight = new THREE.HemisphereLight(0xB1E1FF, 0xB97A20, 1);
+const hemisphereLight = new THREE.HemisphereLight(0xB1E1FF, 0xB97A20, 2.5);
 scene.add(hemisphereLight);
 
 camera.position.set(-1, 2, 3);
